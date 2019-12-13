@@ -144,6 +144,11 @@ main() {
         printf '%s\n' "${hostname:-carbs-linux}" > /proc/sys/kernel/hostname
     } 2>/dev/null
 
+    log "Getting keymap settings..."; {
+    	[ -r "/etc/keymap" ] && . /etc/keymap
+	[ -n "$KEYMAP" ] && loadkmap < "$KEYMAP"
+    }
+
     log "Loading sysctl settings..."; {
         find /run/sysctl.d \
              /etc/sysctl.d \
