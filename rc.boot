@@ -1,10 +1,8 @@
 #!/bin/sh
 
-log() { printf '\033[1;36m=>\033[m\033[1m %s\n' "$@" ;}
+. PREFIX/lib/init/rc.conf
 
 welcome() { printf '\033[1;36m=>\033[m\033[1m Welcome to\033[35m Carbs Linux\033[m\033[1m!\n' ;}
-
-error() { printf '\033[1m\033[31m=> ERROR: %s\033[m\n' "$@" ;}
 
 mnt() {
     mountpoint -q "$1" || {
