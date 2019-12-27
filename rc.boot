@@ -45,6 +45,10 @@ main() {
         mnt /dev/shm -o mode=1777,nosuid,nodev        -nt tmpfs      shm
     }
 
+    log "Setting dmesg level..."; {
+	 [ -n "$dmesg_level" ] && dmesg -n$dmesg_level
+    }
+
     log "Starting eudev..."; {
         command -v udevd >/dev/null && {
             udevd --daemon
