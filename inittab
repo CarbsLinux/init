@@ -1,6 +1,6 @@
-::sysinit:PREFIX/lib/init/rc.boot
+::sysinit:INITDIR/rc.boot
 ::restart:/sbin/init
-::shutdown:PREFIX/lib/init/rc.shutdown
+::shutdown:INITDIR/rc.shutdown
 ::respawn:runsvdir -P /var/service 'log: ................................................................................................................................................................................................................................................................'
 
 tty1::respawn:/sbin/agetty 38400 tty1
