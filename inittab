@@ -1,11 +1,11 @@
-::sysinit:/lib/init/rc.boot
+::sysinit:PREFIX/lib/init/rc.boot
 ::restart:/sbin/init
-::shutdown:/lib/init/rc.shutdown
+::shutdown:PREFIX/lib/init/rc.shutdown
 ::respawn:runsvdir -P /var/service 'log: ................................................................................................................................................................................................................................................................'
 
-tty1::respawn:/sbin/getty 38400 tty1
-tty2::respawn:/sbin/getty 38400 tty2
-tty3::respawn:/sbin/getty 38400 tty3
-tty4::respawn:/sbin/getty 38400 tty4
-tty5::respawn:/sbin/getty 38400 tty5
-tty6::respawn:/sbin/getty 38400 tty6
+tty1::respawn:/sbin/agetty 38400 tty1
+tty2::respawn:/sbin/agetty 38400 tty2
+tty3::respawn:/sbin/agetty 38400 tty3
+tty4::respawn:/sbin/agetty 38400 tty4
+tty5::respawn:/sbin/agetty 38400 tty5
+tty6::respawn:/sbin/agetty 38400 tty6
