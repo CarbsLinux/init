@@ -1,6 +1,6 @@
 #!/bin/sh
 
-log() { printf '\033[36;1m=>\033[m\033[1m %s\n' "$@" ;}
+. PREFIX/lib/init/rc.conf
 
 main() {
     PATH=/sbin:/bin:/usr/sbin:/usr/bin
