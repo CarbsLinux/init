@@ -147,8 +147,7 @@ main() {
     } 2>/dev/null
 
     log "Getting keymap settings..."; {
-    	[ -r "/etc/keymap" ] && . /etc/keymap
-	[ -n "$KEYMAP" ] && loadkmap < "$KEYMAP"
+	[ -n "$keymap" ] && loadkmap < "$keymap"
     }
 
     log "Loading sysctl settings..."; {
