@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. PREFIX/lib/init/rc.conf
+. /etc/init/rc.conf
 
 welcome() { printf '\033[1;36m=>\033[m\033[1m Welcome to\033[35m Carbs Linux\033[m\033[1m!\n' ;}
 

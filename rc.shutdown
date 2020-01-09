@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. PREFIX/lib/init/rc.conf
+. /etc/init/rc.conf
 
 main() {
     PATH=/sbin:/bin:/usr/sbin:/usr/bin
