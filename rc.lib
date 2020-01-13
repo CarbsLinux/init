@@ -7,8 +7,8 @@
 
 # Functions for rc.boot and rc.shutdown
 
-out() { printf "\033[1;36m->\033[0;00m\033[1m$1\033[0;00m\n" ;}
-error() { printf "\033[1;31m-> ERROR: \033[0;00m\033[1m$1\033[0;00m\n" ;}
+out() { printf "\033[1;36m->\033[0;00m\033[1m $1\033[0;00m\n" ;}
+error() { printf "\033[1;31m-> ERROR: \033[0;00m\033[1m $1\033[0;00m\n" ;}
 welcome() { printf '\033[1;36m->\033[m\033[1m Welcome to\033[35m Carbs Linux\033[m\033[1m!\n' ;}
 
 mnt() {
