@@ -25,5 +25,3 @@ emergency_shell() {
 
     /bin/sh -l
 }
-
-run_hooks() { for file in "$@" ; do [ -f "$file" ] && . "$file"; done ;}

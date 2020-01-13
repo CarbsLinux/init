@@ -10,9 +10,10 @@ out "Waiting for services to stop..."; {
     sv exit /var/service/*
 }
 
-out "Running pre shutdown hooks..."; {
-    run_hooks /etc/init/*.pre.shutdown
-}
+out "Running pre shutdown hooks..."
+for file in /etc/init/*.pre.shutdown ; do
+	[ -f "$file" ] && . "$file"
+done
 
 out "Saving random seed..."; {
     dd count=1 bs=512 if=/dev/random of=/var/random.seed
@@ -48,6 +49,7 @@ out "Deactivating dmcrypt devices (if any exist)."; {
     }
 }
 
-out "Running post shutdown hooks..."; {
-    run_hooks /etc/rc.d/*.post.shutdown
-}
+out "Running post shutdown hooks...";
+for file in /etc/rc.d/*.post.shutdown ; do
+	[ -f "$file" ] && . "$file"
+done
