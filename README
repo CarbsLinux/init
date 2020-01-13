@@ -1,2 +1,12 @@
 carbs init scripts
 ==================
+
+these init scripts can be configured from
+your /etc/init directory.
+
+
+Hooks
+-----
+
+You can add and configure hooks from
+

@@ -1,48 +1,53 @@
 #!/bin/sh
 
 . /etc/init/rc.conf
+. INITDIR/rc.lib
 
-main() {
-    PATH=/sbin:/bin:/usr/sbin:/usr/bin
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
-    log "Waiting for services to stop..."; {
-        sv -w196 force-stop /var/service/*
-        sv exit /var/service/*
-    }
+out "Waiting for services to stop..."; {
+    sv -w196 force-stop /var/service/*
+    sv exit /var/service/*
+}
 
-    log "Saving random seed..."; {
-        dd count=1 bs=512 if=/dev/random of=/var/random.seed
-    }
+out "Running pre shutdown hooks..."; {
+    run_hooks /etc/init/*.pre.shutdown
+}
 
-    halt -w
+out "Saving random seed..."; {
+    dd count=1 bs=512 if=/dev/random of=/var/random.seed
+}
 
-    log "Sending TERM signal to all processes..."; {
-        killall5 -TERM
-        sleep 1
-    }
+halt -w
 
-    log "Sending KILL signal to all processes..."; {
-        killall5 -KILL
-    }
+out "Sending TERM signal to all processes..."; {
+    killall5 -TERM
+    sleep 1
+}
 
-    log "Unmounting filesystems and disabling swap..." \
-	    "Remounting rootfs as readonly"; {
-        swapoff -a
-        umount -rat nosysfs,noproc,nodevtmpfs,notmpfs
-        mount -o remount,ro /
+out "Sending KILL signal to all processes..."; {
+    killall5 -KILL
+}
 
-        sync
-    }
+out "Unmounting filesystems and disabling swap..."
+out "Remounting rootfs as readonly"; {
+    swapoff -a
+    umount -rat nosysfs,noproc,nodevtmpfs,notmpfs
+    mount -o remount,ro /
 
-    log "Deactivating dmcrypt devices (if any exist)."; {
-        [ -x /bin/cryptsetup ] && [ -x /bin/dmsetup ] && {
-            dmsetup ls --target crypt \
-                       --exec "dmsetup info -c --noheadings -o open,name" |
-            while read -r drive; do
-                [ "${drive%%:*}" = "0" ] && cryptsetup close "${drive##*:}"
-            done
-        }
+    sync
+}
+
+out "Deactivating dmcrypt devices (if any exist)."; {
+    [ -x /bin/cryptsetup ] && [ -x /bin/dmsetup ] && {
+        dmsetup ls --target crypt \
+                   --exec "dmsetup info -c --noheadings -o open,name" |
+        while read -r drive; do
+            [ "${drive%%:*}" = "0" ] && cryptsetup close "${drive##*:}"
+        done
     }
 }
 
-main
+out "Running post shutdown hooks..."; {
+    run_hooks /etc/rc.d/*.post.shutdown
+}

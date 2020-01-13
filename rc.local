@@ -1,0 +1,9 @@
+#
+# rc.local
+#
+
+# vim:filetype=sh
+
+# rc.local is executed after the main functions 
+# of rc.boot so you can add your own scripts and
+# run them from here.
