@@ -50,6 +50,6 @@ out "Deactivating dmcrypt devices (if any exist)."; {
 }
 
 out "Running post shutdown hooks...";
-for file in /etc/rc.d/*.post.shutdown ; do
+for file in /etc/init/*.post.shutdown ; do
 	[ -f "$file" ] && . "$file"
 done
