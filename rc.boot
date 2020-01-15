@@ -157,7 +157,8 @@ out "Loading sysctl settings..."; {
 out "Running boot hooks..."
 set +f
 for file in /etc/init/*.boot ; do
-	[ -f "$file" ] && . "$file"
+	[ -f "$file" ] && \
+		out "Running $file" && . "$file"
 done
 
 out "Running rc.local..."; {

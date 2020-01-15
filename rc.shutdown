@@ -12,7 +12,8 @@ out "Waiting for services to stop..."; {
 
 out "Running pre shutdown hooks..."
 for file in /etc/init/*.pre.shutdown ; do
-	[ -f "$file" ] && . "$file"
+	[ -f "$file" ] && \
+		out "Running $file" && . "$file"
 done
 
 out "Saving random seed..."; {
@@ -51,5 +52,6 @@ out "Deactivating dmcrypt devices (if any exist)."; {
 
 out "Running post shutdown hooks...";
 for file in /etc/init/*.post.shutdown ; do
-	[ -f "$file" ] && . "$file"
+	[ -f "$file" ] && \
+		out "Running $file" && . "$file"
 done
