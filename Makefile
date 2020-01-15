@@ -6,8 +6,6 @@ VERSION=0.4.3
 
 install:
 	mkdir -p ${DESTDIR}/etc
-	sed 's#INITDIR#${INITDIR}#g' < inittab > ${DESTDIR}/etc/inittab
-	chmod 644 ${DESTDIR}/etc/inittab
 	install -Dm644 rc.conf ${DESTDIR}/etc/init/rc.conf
 	install -Dm644 rc.lib ${DESTDIR}${INITDIR}/rc.lib
 	install -Dm755 rc.local ${DESTDIR}/etc/init/rc.local
@@ -17,7 +15,6 @@ install:
 	install -Dm644 README ${DESTDIR}${INITDIR}/README
 
 uninstall:
-	rm -f ${DESTDIR}/etc/inittab
 	rm -f ${DESTDIR}/etc/init/rc.conf
 	rm -f ${DESTDIR}/etc/init/rc.local
 	rm -f ${DESTDIR}${INITDIR}/rc.boot
@@ -27,7 +24,7 @@ uninstall:
 
 dist:
 	mkdir -p init-${VERSION}
-	cp LICENSE Makefile README inittab rc.boot rc.conf rc.lib rc.local \
+	cp LICENSE Makefile README rc.boot rc.conf rc.lib rc.local \
 		rc.shutdown init-${VERSION}
 	tar -cf init-${VERSION}.tar init-${VERSION}
 	gzip init-${VERSION}.tar
