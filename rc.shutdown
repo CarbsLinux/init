@@ -20,8 +20,6 @@ out "Saving random seed..."; {
     dd count=1 bs=512 if=/dev/random of=/var/random.seed
 }
 
-halt -w
-
 out "Sending TERM signal to all processes..."; {
     killall5 -TERM
     sleep 1
