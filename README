@@ -8,5 +8,9 @@ your /etc/init directory.
 Hooks
 -----
 
-You can add and configure hooks from
+You can add and configure hooks from the
+/etc/init directory. Hooks are named as
 
+*.boot          - for boot hooks
+*.pre.shutdown  - for pre-shutdown hooks
+*.post.shutdown - for post-shutdown hooks
