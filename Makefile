@@ -2,7 +2,7 @@
 
 PREFIX=/usr
 INITDIR=${PREFIX}/lib/init
-VERSION=0.4.3
+VERSION=0.5.0
 
 install:
 	mkdir -p ${DESTDIR}/etc
