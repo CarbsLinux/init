@@ -154,6 +154,11 @@ out "Loading sysctl settings..."; {
     done
 }
 
+
+command -v udevd >/dev/null &&
+    udevadm control --exit
+
+
 out "Running boot hooks..."
 set +f
 for file in /etc/init/*.boot ; do
@@ -166,7 +171,5 @@ out "Running rc.local..."; {
 		. /etc/init/rc.local
 }
 
-command -v udevd >/dev/null &&
-    udevadm control --exit
 
 out "Boot stage complete..."
