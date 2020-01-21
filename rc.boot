@@ -166,7 +166,7 @@ for file in /etc/init/*.boot ; do
 		out "Running $file" && . "$file"
 done
 
-out "Running rc.local..."; {
+out "Running /etc/init/rc.local..."; {
 	[ -r "/etc/init/rc.local" ] && \
 		. /etc/init/rc.local
 }
