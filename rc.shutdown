@@ -5,16 +5,16 @@
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
-out "Waiting for services to stop..."; {
-    sv -w196 force-stop /var/service/*
-    sv exit /var/service/*
-}
-
 out "Running pre shutdown hooks..."
 for file in /etc/init/*.pre.shutdown ; do
 	[ -f "$file" ] && \
 		out "Running $file" && . "$file"
 done
+
+out "Waiting for services to stop..."; {
+    sv -w196 force-stop /var/service/*
+    sv exit /var/service/*
+}
 
 out "Saving random seed..."; {
     dd count=1 bs=512 if=/dev/random of=/var/random.seed
