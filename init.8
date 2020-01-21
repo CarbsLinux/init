@@ -1,0 +1,54 @@
+.
+.TH "INIT" "8" "January 2020" "" ""
+.
+.SH "NAME"
+\fBinit\fR \- init structure for Carbs Linux
+.
+.SH "DESCRIPTION"
+\fBCarbs Linux\fR init is based on \fBKISS Linux\fR init\. It officially supports both sinit and busybox\-init\. It was structured to be as modular as possible\.
+.
+.SH "RUN ORDER"
+At boot, the init program starts \fB/usr/lib/init/rc\.boot\fR\. rc\.boot after finishing most of its commands, runs \fB/etc/init/rc\.local\fR\. It then continues by running boot hooks\.
+.
+.P
+Boot hooks are executed alphabetically\. You can add them to the \fB/etc/init\fR folder with the name \fB*\.boot\fR\.
+.
+.P
+The boot is finished after all the hooks are run\.
+.
+.P
+After receiving the poweroff/reboot command, init executes \fB/usr/lib/init/rc\.shutdown\fR\. The shutdown script stops runit services and proceeds to running pre\-shutdown hooks\. By the end, post\-shutdown hooks are executed\.
+.
+.P
+Pre\-shutdown hooks, just as boot hooks, are to be located in \fB/etc/init\fR with the \fB\.pre\.shutdown\fR suffix\. Same as pre\-shutdown, post\-shutdown has the suffix \fB\.post\.shutdown\fR\.
+.
+.SH "STRUCTURE"
+\fB/etc/init/\fR
+.
+.IP "\(bu" 4
+rc\.conf
+.
+.IP "\(bu" 4
+rc\.local
+.
+.IP "" 0
+.
+.P
+\fB/usr/lib/init/\fR
+.
+.IP "\(bu" 4
+README
+.
+.IP "\(bu" 4
+rc\.boot
+.
+.IP "\(bu" 4
+rc\.lib
+.
+.IP "\(bu" 4
+rc\.shutdown
+.
+.IP "" 0
+.
+.SH "AUTHORS"
+Cem Keylan and Dylan Araps\.
