@@ -159,17 +159,17 @@ command -v udevd >/dev/null &&
     udevadm control --exit
 
 
+out "Running /etc/init/rc.local..."; {
+	[ -r "/etc/init/rc.local" ] && \
+		. /etc/init/rc.local
+}
+
+
 out "Running boot hooks..."
 set +f
 for file in /etc/init/*.boot ; do
 	[ -f "$file" ] && \
 		out "Running $file" && . "$file"
 done
-
-out "Running /etc/init/rc.local..."; {
-	[ -r "/etc/init/rc.local" ] && \
-		. /etc/init/rc.local
-}
-
 
 out "Boot stage complete..."
