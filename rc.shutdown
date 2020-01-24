@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /etc/init/rc.conf
+[ -r /etc/init/rc.conf ] && . /etc/init/rc.conf
 . INITDIR/rc.lib
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
