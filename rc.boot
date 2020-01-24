@@ -135,6 +135,14 @@ out "Getting keymap settings..."; {
     [ -n "$keymap" ] && loadkmap < "$keymap"
 }
 
+[ "$timezone" ] && out "Setting system time ("$timezone")" && {
+    if [ -f "/usr/share/zoneinfo/$timezone" ]; then
+        ln -sf "/usr/share/zoneinfo/$timezone" /etc/localtime
+    else
+        error "/usr/share/zoneinfo/$timezone could not be found"
+    fi
+}
+
 
 out "Loading sysctl settings..."; {
     find /run/sysctl.d \
