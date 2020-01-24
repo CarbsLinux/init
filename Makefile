@@ -3,7 +3,7 @@
 PREFIX=/usr
 INITDIR=${PREFIX}/lib/init
 MAN8=${PREFIX}/share/man/man8
-VERSION=0.5.1
+VERSION=0.5.2
 
 install:
 	mkdir -p ${DESTDIR}/etc
