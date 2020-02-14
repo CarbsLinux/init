@@ -2,13 +2,13 @@
 
 PREFIX  = /usr
 INITDIR = ${PREFIX}/lib/init
-VERSION = 0.6.0
+VERSION = 0.6.1
 
 install:
 	mkdir -p ${DESTDIR}/etc
 	install -Dm644 rc.conf ${DESTDIR}/etc/init/rc.conf
 	install -Dm644 rc.lib ${DESTDIR}${INITDIR}/rc.lib
-	install -Dm644 -t ${DESTDIR}/etc/init/ contrib/getty.boot
+	install -Dm644 -t ${DESTDIR}/etc/init/ contrib/getty.boot contrib/runit.boot
 	install -Dm755 rc.local ${DESTDIR}/etc/init/rc.local
 	sed 's#INITDIR#${INITDIR}#g' < rc.boot > ${DESTDIR}${INITDIR}/rc.boot
 	sed 's#INITDIR#${INITDIR}#g' < rc.shutdown > ${DESTDIR}${INITDIR}/rc.shutdown
@@ -18,7 +18,7 @@ install:
 uninstall:
 	rm -f ${DESTDIR}/etc/init/rc.conf
 	rm -f ${DESTDIR}/etc/init/rc.local
-	rm -f ${DESTDIR}/etc/init/getty.boot
+	rm -f ${DESTDIR}/etc/init/getty.boot ${DESTDIR}/etc/init/runit.boot
 	rm -f ${DESTDIR}${INITDIR}/rc.boot
 	rm -f ${DESTDIR}${INITDIR}/rc.shutdown
 	rm -f ${DESTDIR}${INITDIR}/rc.lib
