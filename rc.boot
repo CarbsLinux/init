@@ -34,17 +34,17 @@ out "Mounting pseudo filesystems..."; {
     mnt /dev/shm -o mode=1777,nosuid,nodev        -nt tmpfs      shm
 }
 
-out "Setting dmesg level..."; {
-     [ -n "$dmesg_level" ] && dmesg -n$dmesg_level
+[ "$dmesg_level" ] && {
+    out "Setting dmesg level..."
+    dmesg -n$dmesg_level
 }
 
-out "Starting eudev..."; {
-    command -v udevd >/dev/null && {
-        udevd --daemon
-        udevadm trigger --action=add --type=subsystems
-        udevadm trigger --action=add --type=devices
-        udevadm settle
-    }
+command -v udevd >/dev/null && {
+    out "Starting eudev..."
+    udevd --daemon
+    udevadm trigger --action=add --type=subsystems
+    udevadm trigger --action=add --type=devices
+    udevadm settle
 }
 
 out "Remounting rootfs as ro..."; {
@@ -94,10 +94,10 @@ out "Setting hostname..."; {
     printf '%s\n' "${hostname:-carbs-linux}" > /proc/sys/kernel/hostname
 } 2>/dev/null
 
-out "Getting keymap settings..."; {
-    [ -n "$keymap" ] && loadkmap < "$keymap"
+[ "$keymap" ] && {
+    out "Loading keymap settings..."
+    loadkmap < "$keymap"
 }
-
 
 out "Loading sysctl settings..."; {
     find /run/sysctl.d \
