@@ -17,13 +17,15 @@ out "Mounting pseudo filesystems..."; {
     mnt /run  -o mode=0755,nosuid,nodev -t tmpfs    run
     mnt /dev  -o mode=0755,nosuid       -t devtmpfs dev
 
-    mkdir -pm 0755 /run/runit \
+    mkdir -pm 0755 \
                    /run/lvm   \
                    /run/user  \
                    /run/lock  \
                    /run/log   \
                    /dev/pts   \
                    /dev/shm
+
+    command -v runsvdir >/dev/null 2>&1 && mkdir -pm 0755 /run/runit
 
     mnt /dev/pts -o mode=0620,gid=5,nosuid,noexec -nt devpts     devpts
     mnt /dev/shm -o mode=1777,nosuid,nodev        -nt tmpfs      shm
