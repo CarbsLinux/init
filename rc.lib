@@ -20,8 +20,8 @@ mnt() {
 }
 
 emergency_shell() {
-    error "Cannot continue init due to errors above, starting emergency shell"
-    error "When ready, type 'exit' to continue the boot."
+    error "Cannot continue init due to errors above, starting emergency shell" \
+    "When ready, type 'exit' to continue the boot."
 
     /bin/sh -l
 }
