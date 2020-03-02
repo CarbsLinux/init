@@ -48,50 +48,9 @@ out "Remounting rootfs as ro..."; {
     mount -o remount,ro / || emergency_shell
 }
 
-out "Activating encrypted devices (if any exist)..."; {
-    [ -e /etc/crypttab ] && [ -x /bin/cryptsetup ] && {
-        exec 3<&0
-
-        while read -r name dev pass opts err; do
-            [ "${name##\#*}" ] || continue
-
-            # Break on invalid crypttab.
-            [ "$err" ] && {
-                printf 'error: A valid crypttab has only 4 columns.\n'
-                break
-            }
-
-            # Turn 'UUID=*' lines into device names.
-            [ "${dev##UUID*}" ] || dev=$(blkid -l -o device -t "$dev")
-
-            # Parse options by turning list into a pseudo array.
-            IFS=,
-            set -- $opts
-            IFS=$old_ifs
-
-            copts="cryptsetup luksOpen"
-
-            # Create an argument list (no other way to do this in sh).
-            for opt; do case $opt in
-                discard)            copts="$copts --allow-discards" ;;
-                readonly|read-only) copts="$copts -r" ;;
-                tries=*)            copts="$copts -T ${opt##*=}" ;;
-            esac; done
-
-            # If password is 'none', '-' or empty ask for it.
-            case $pass in
-                none|-|"") $copts "$dev" "$name" <&3 ;;
-                *)         $copts -d "$pass" "$dev" "$name" ;;
-            esac
-        done < /etc/crypttab
-
-        exec 3>&-
-
-        [ "$copts" ] && [ -x /bin/vgchance ] && {
-            out "Activating LVM devices for dm-crypt..."
-            vgchange --sysinit -a y || emergency_shell
-        }
-    }
+[ -e /etc/crypttab ] && [ -x /bin/cryptsetup ] && {
+    out "Activating encrypted devices..."
+    parse_crypttab
 }
 
 out "Checking filesystems..."; {
