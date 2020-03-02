@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=1090,1091,2174
 
 . /etc/init/rc.conf
 . INITDIR/rc.lib
@@ -6,6 +7,8 @@
 
 
 PATH=/usr/bin:/usr/sbin
+
+# shellcheck disable=2034
 old_ifs=$IFS
 set -f
 
