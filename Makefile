@@ -2,7 +2,6 @@
 
 PREFIX  = /usr
 INITDIR = ${PREFIX}/lib/init
-VERSION = 0.6.1
 
 install:
 	mkdir -p ${DESTDIR}/etc
@@ -23,11 +22,3 @@ uninstall:
 	rm -f ${DESTDIR}${INITDIR}/rc.shutdown
 	rm -f ${DESTDIR}${INITDIR}/rc.lib
 	rm -f ${DESTDIR}${INITDIR}/README
-
-dist:
-	mkdir -p init-${VERSION}
-	cp LICENSE Makefile README rc.boot rc.conf rc.lib rc.local \
-		rc.shutdown init-${VERSION}
-	tar -cf init-${VERSION}.tar init-${VERSION}
-	gzip init-${VERSION}.tar
-	rm -rf init-${VERSION}
