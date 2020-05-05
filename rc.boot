@@ -6,7 +6,7 @@
 
 
 
-PATH=/usr/bin:/usr/sbin
+PATH=/usr/bin:/usr/local/bin
 
 # shellcheck disable=2034
 old_ifs=$IFS
