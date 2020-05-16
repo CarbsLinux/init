@@ -17,3 +17,23 @@ run_hook() {
         . "$hook"
     done
 }
+
+random() {
+    seed=/var/random.seed
+    case "$1" in
+        load)
+            out "Seeding random..."
+            [ -f "$seed" ] || {
+                out "Generating entropy, this might take a while..."
+                dd count=1 bs=512 if=/dev/random of="$seed" 2>/dev/null
+            }
+            cat "$seed" > /dev/urandom
+            ;;
+        save)
+            mkdir -p "${seed%/*}"
+            out "Saving random seed..."
+            dd count=1 bs=512 if=/dev/urandom of="$seed" 2>/dev/null
+            ;;
+    esac
+}
+

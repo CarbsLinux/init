@@ -13,10 +13,13 @@ command -v sv >/dev/null &&
     sv exit /var/service/* >/dev/null
 }
 
-
-out "Saving random seed..."; {
-    dd count=1 bs=512 if=/dev/random of=/var/random.seed
+command -v svctl >/dev/null &&
+    out "Waiting for sysmgr services to stop..."; {
+    svctl kill /var/sysmgr/* 2>/dev/null
 }
+
+# Save random seed
+random save
 
 out "Sending TERM signal to all processes..."; {
     killall5 -TERM

@@ -78,16 +78,8 @@ out "Enabling swap..."; {
     swapon -a || shell
 }
 
-out "Seeding random..."; {
-    if [ -f /var/random.seed ]; then
-        cat /var/random.seed > /dev/urandom
-    else
-        out "This may hang."
-        out "Mash the keyboard to generate entropy..."
-
-        dd count=1 bs=512 if=/dev/random of=/var/random.seed
-    fi
-}
+# Load random seed
+random load
 
 out "Setting up loopback..."; {
     ip link set up dev lo
