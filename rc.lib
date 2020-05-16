@@ -1,8 +1,5 @@
-#
-# rc.lib
-#
+# rc.lib -- common functions for rc.boot and rc.shutdown
 
-# vim:filetype=sh
 # shellcheck disable=1090
 
 # Functions for rc.boot and rc.shutdown
