@@ -51,4 +51,4 @@ out "Deactivating dmcrypt devices (if any exist)."; {
 
 run_hook post.shutdown
 
-case "$1" in reboot) shalt r ;; poweroff) shalt p ;; esac
+case "$1" in reboot) shalt r ;; poweroff) shalt p; esac
