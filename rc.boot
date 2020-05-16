@@ -95,7 +95,7 @@ out "Setting up loopback..."; {
 
 out "Setting hostname..."; {
     read -r hostname < /etc/hostname
-    printf '%s\n' "${hostname:-carbs-linux}" > /proc/sys/kernel/hostname
+    printf '%s\n' "${hostname:-carbslinux}" > /proc/sys/kernel/hostname
 } 2>/dev/null
 
 [ "$keymap" ] && {
