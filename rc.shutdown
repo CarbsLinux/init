@@ -39,16 +39,6 @@ out "Remounting rootfs as readonly"; {
     sync
 }
 
-out "Deactivating dmcrypt devices (if any exist)."; {
-    [ -x /bin/cryptsetup ] && [ -x /bin/dmsetup ] && {
-        dmsetup ls --target crypt \
-                   --exec "dmsetup info -c --noheadings -o open,name" |
-        while read -r drive; do
-            [ "${drive%%:*}" = "0" ] && cryptsetup close "${drive##*:}"
-        done
-    }
-}
-
 run_hook post.shutdown
 
 case "$1" in reboot) shalt r ;; poweroff) shalt p; esac
