@@ -54,28 +54,27 @@ command -v udevd >/dev/null && {
     udevadm settle
 }
 
-out "Remounting rootfs as ro..."; {
-    mount -o remount,ro / || emergency_shell
-}
-
+out "Remounting rootfs as read-only..."; {
+    mount -o remount,ro / || shell
 }
 
 out "Checking filesystems..."; {
     fsck -ATat noopts=_netdev
-    [ $? -gt 1 ] && emergency_shell
+    [ $? -gt 1 ] && shell
 }
 
-out "Mounting rootfs rw..."; {
-    mount -o remount,rw / || emergency_shell
+out "Mounting rootfs read-write..."; {
+    mount -o remount,rw / || shell
 }
 
 out "Mounting all local filesystems..."; {
     mount -at nosysfs,nonfs,nonfs4,nosmbfs,nocifs -O no_netdev ||
-        emergency_shell
+        shell
+}
 }
 
 out "Enabling swap..."; {
-    swapon -a || emergency_shell
+    swapon -a || shell
 }
 
 out "Seeding random..."; {
