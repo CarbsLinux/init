@@ -58,9 +58,6 @@ out "Remounting rootfs as ro..."; {
     mount -o remount,ro / || emergency_shell
 }
 
-[ -e /etc/crypttab ] && [ -x /bin/cryptsetup ] && {
-    out "Activating encrypted devices..."
-    parse_crypttab
 }
 
 out "Checking filesystems..."; {
