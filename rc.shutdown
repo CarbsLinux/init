@@ -49,10 +49,6 @@ out "Deactivating dmcrypt devices (if any exist)."; {
     }
 }
 
-out "Running post shutdown hooks...";
-for file in /etc/init/*.post.shutdown ; do
-	[ -f "$file" ] && \
-		out "Running $file" && . "$file"
-done
+run_hook post.shutdown
 
 case "$1" in reboot) shalt r ;; poweroff) shalt p ;; esac
