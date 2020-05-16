@@ -15,9 +15,8 @@ mnt() {
     mount "$@" "$mnt"
 }
 
-PATH=/usr/bin:/usr/local/bin
-
-set -f
+# Manually set path
+PATH=$PATH:/usr/bin:/usr/local/bin
 
 welcome
 
