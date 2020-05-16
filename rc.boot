@@ -96,21 +96,15 @@ out "Setting hostname..."; {
 }
 
 out "Loading sysctl settings..."; {
-    find /run/sysctl.d \
-         /etc/sysctl.d \
-         /usr/local/lib/sysctl.d \
-         /usr/lib/sysctl.d \
-         /lib/sysctl.d \
-         /etc/sysctl.conf \
-         -name \*.conf -type f 2>/dev/null \
-    | while read -r conf; do
-        seen="$seen ${conf##*/}"
+    for conf in \
+        /run/sysctl.d/*.conf \
+        /usr/lib/sysctl.d/*.conf \
+        /etc/sysctl.d/*.conf \
+        /etc/sysctl.conf; do
 
-        case $seen in
-            *" ${conf##*/} "*) ;;
-            *) printf '%s\n' "* Applying $conf ..."
-               sysctl -p "$conf" ;;
-        esac
+        [ -f "$conf" ] || continue
+        out "Appling $conf ..."
+        sysctl -p "$conf"
     done
 }
 
