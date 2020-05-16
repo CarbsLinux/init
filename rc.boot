@@ -1,8 +1,10 @@
 #!/bin/sh
 # shellcheck disable=1090,1091,2174
 
+# Read the configuration file and the library fo
+# common functions.
 . /etc/init/rc.conf
-. INITDIR/rc.lib
+. /usr/lib/init/rc.lib
 
 mnt() {
     while read -r _ mnt _; do
