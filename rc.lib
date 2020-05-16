@@ -8,3 +8,12 @@ shell() {
     error "Dropping to shell, type 'exit' to continue the boot process."
     sh -l
 }
+
+run_hook() {
+    out "Running '$1' hooks..."
+    for hook in "/etc/init/"*".$1"; do
+        [ -f "$hook" ] || continue
+        out "Running '$hook'..."
+        . "$hook"
+    done
+}

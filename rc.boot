@@ -71,7 +71,8 @@ out "Mounting all local filesystems..."; {
     mount -at nosysfs,nonfs,nonfs4,nosmbfs,nocifs -O no_netdev ||
         shell
 }
-}
+
+run_hook early-boot
 
 out "Enabling swap..."; {
     swapon -a || shell
@@ -126,12 +127,7 @@ command -v udevd >/dev/null &&
     udevadm control --exit
 
 
-out "Running boot hooks..."
-set +f
-for file in /etc/init/*.boot ; do
-	[ -f "$file" ] && \
-		out "Running $file" && . "$file"
-done
+run_hook boot
 
 out "Running rc.local..."; {
 	[ -r "/etc/init/rc.local" ] && \
