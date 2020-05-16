@@ -4,7 +4,7 @@
 . /etc/init/rc.conf
 . INITDIR/rc.lib
 
-PATH=/sbin:/bin:/usr/sbin:/usr/bin
+PATH=$PATH:/usr/local/bin:/usr/bin
 
 run_hook pre.shutdown
 
