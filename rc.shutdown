@@ -2,7 +2,7 @@
 # shellcheck disable=1090,1091
 
 . /etc/init/rc.conf
-. INITDIR/rc.lib
+. /usr/lib/init/rc.lib
 
 PATH=$PATH:/usr/local/bin:/usr/bin
 
