@@ -4,7 +4,14 @@
 . /etc/init/rc.conf
 . INITDIR/rc.lib
 
+mnt() {
+    while read -r _ mnt _; do
+        case "$mnt" in "$1") return 0; esac
+    done < /proc/mounts
 
+    mnt="$1"; shift
+    mount "$@" "$mnt"
+}
 
 PATH=/usr/bin:/usr/local/bin
 

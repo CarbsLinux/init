@@ -11,14 +11,6 @@ out() { printf '\033[1;36m-> \033[m\033[1m%s\033[m\n' "$@" ;}
 error() { printf '\033[1;31m!> ERROR: \033[m\033[1m%s\033[m\n' "$@" >&2 ;}
 welcome() { printf '\033[1;36m->\033[m\033[1m Welcome to\033[35m %s\033[m\033[1m!\n' "Carbs $(uname -sr)" ;}
 
-mnt() {
-    mountpoint -q "$1" || {
-        dir=$1
-        shift
-        mount "$@" "$dir"
-    }
-}
-
 emergency_shell() {
     error "Cannot continue init due to errors above, starting emergency shell" \
     "When ready, type 'exit' to continue the boot."
