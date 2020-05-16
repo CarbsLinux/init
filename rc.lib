@@ -13,7 +13,7 @@ shell() {
 
 run_hook() {
     out "Running '$1' hooks..."
-    for hook in "/etc/init/"*".$1"; do
+    for hook in "/etc/init/"*".$1" "/usr/lib/init/hooks/"*".$1"; do
         [ -f "$hook" ] || continue
         out "Running '$hook'..."
         . "$hook"
