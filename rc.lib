@@ -5,7 +5,7 @@ out() { printf '\033[1;36m-> \033[39m%s\033[m\n' "$@" ;}
 err() { printf '\033[1;31m!> \033[39m%s\033[m\n' "$@" ;}
 
 shell() {
-    error "Dropping to shell, type 'exit' to continue the boot process."
+    err "Dropping to shell, type 'exit' to continue the boot process."
     sh -l
 }
 
