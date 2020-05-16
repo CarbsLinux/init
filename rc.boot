@@ -15,9 +15,6 @@ mnt() {
     mount "$@" "$mnt"
 }
 
-# Manually set path
-PATH=$PATH:/usr/bin:/usr/local/bin
-
 # Display a pretty welcome message
 printf '\033[1;36m-> \033[39mWelcome to \033[35mCarbs %s\033[39m!\033[m\n' "$(uname -s)"
 

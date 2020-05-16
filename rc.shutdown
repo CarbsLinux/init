@@ -4,8 +4,6 @@
 . /etc/init/rc.conf
 . /usr/lib/init/rc.lib
 
-PATH=$PATH:/usr/local/bin:/usr/bin
-
 run_hook pre.shutdown
 
 command -v sv >/dev/null &&
