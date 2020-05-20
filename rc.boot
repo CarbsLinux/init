@@ -12,7 +12,7 @@ mnt() {
     done < /proc/mounts
 
     mnt="$1"; shift
-    mount "$@" "$mnt"
+    mount "$@" "$mnt" 2>&1 | log
 }
 
 # Display a pretty welcome message
@@ -61,7 +61,7 @@ out "Remounting rootfs as read-only..."; {
 
 [ "$FASTBOOT" = 1 ] || {
     out "Checking filesystems..."
-    fsck "-ATat${FORCEFSCK}" noopts=_netdev
+    fsck "-ATat${FORCEFSCK}" noopts=_netdev 2>&1 | log
     [ $? -gt 1 ] && shell
 }
 

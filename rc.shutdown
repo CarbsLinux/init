@@ -36,7 +36,7 @@ out "Remounting rootfs as readonly"; {
     mount -o remount,ro /
 
     sync
-}
+} 2>&1 | log
 
 run_hook post.shutdown
 

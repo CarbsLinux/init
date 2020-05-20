@@ -1,10 +1,22 @@
 # rc.lib -- common functions for rc.boot and rc.shutdown
-# shellcheck disable=1090
+# shellcheck disable=1090,2034
 
 export PATH=$PATH:/usr/local/bin:/usr/bin
 
-out() { printf '\033[1;36m-> \033[39m%s\033[m\n' "$@" ;}
-err() { printf '\033[1;31m!> \033[39m%s\033[m\n' "$@" ;}
+log_file="${log_dir:=/var/log/init}/$(date +%Y%m%d-%H%M)-${0##*.}"
+
+log() {
+    [ "$log" = 1 ] || {
+        cat
+        return 0
+    }
+    mkdir -p "$log_dir"
+    tee -a "$log_file"
+}
+
+
+out() { printf '\033[1;36m-> \033[39m%s\033[m\n' "$@" | log ;}
+err() { printf '\033[1;31m!> \033[39m%s\033[m\n' "$@" | log ;}
 
 shell() {
     err "Dropping to shell, type 'exit' to continue the boot process."
@@ -58,6 +70,7 @@ parse_cmdline() {
             ro) RO=1 ;;
             forcefsck) FORCEFSCK="-f" ;;
             fastboot)  FASTBOOT=1 ;;
+            log) log=1 ;;
         esac
     done
 }
