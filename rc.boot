@@ -38,6 +38,10 @@ out "Mounting pseudo filesystems..."; {
     mnt /dev/shm -o mode=1777,nosuid,nodev        -nt tmpfs      shm
 }
 
+out "Parsing kernel commandline..."; {
+    parse_cmdline
+}
+
 [ "$dmesg_level" ] && {
     out "Setting dmesg level..."
     dmesg -n$dmesg_level
@@ -55,12 +59,14 @@ out "Remounting rootfs as read-only..."; {
     mount -o remount,ro / || shell
 }
 
-out "Checking filesystems..."; {
-    fsck -ATat noopts=_netdev
+[ "$FASTBOOT" = 1 ] || {
+    out "Checking filesystems..."
+    fsck "-ATat${FORCEFSCK}" noopts=_netdev
     [ $? -gt 1 ] && shell
 }
 
-out "Mounting rootfs read-write..."; {
+[ "$RO" = "1" ] || {
+    out "Mounting rootfs read-write..."
     mount -o remount,rw / || shell
 }
 

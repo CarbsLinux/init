@@ -39,3 +39,25 @@ random() {
     esac
 }
 
+parse_cmdline() {
+    # This is a primitive way of parsing kernel command line
+    # options. Before now, carbs-init ignored these options
+    # set by the user. More will be added as needed. Init scripts
+    # don't need to handle most of the command line options
+    # as the kernel deals with most of them, but not things
+    # such as mount options.
+    [ -r /proc/cmdline ] || {
+        err "Kernel command line options cannot be parsed"
+        shell
+    }
+
+    # We want to read words instead of lines here.
+    # shellcheck disable=2013
+    for arg in $(cat /proc/cmdline); do
+        case "$arg" in
+            ro) RO=1 ;;
+            forcefsck) FORCEFSCK="-f" ;;
+            fastboot)  FASTBOOT=1 ;;
+        esac
+    done
+}
