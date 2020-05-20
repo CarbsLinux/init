@@ -7,7 +7,7 @@
 . /usr/lib/init/rc.lib
 
 mnt() {
-    while read -r _ mnt _; do
+    [ -f /proc/mounts ] && while read -r _ mnt _; do
         case "$mnt" in "$1") return 0; esac
     done < /proc/mounts
 
