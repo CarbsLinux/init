@@ -6,15 +6,6 @@
 . /usr/lib/init/rc.lib
 [ -f /etc/init/rc.conf ] && . /etc/init/rc.conf
 
-mnt() {
-    [ -f /proc/mounts ] && while read -r _ mnt _; do
-        case "$mnt" in "$1") return 0; esac
-    done < /proc/mounts
-
-    mnt="$1"; shift
-    mount "$@" "$mnt" 2>&1 | log
-}
-
 # Display a pretty welcome message
 printf '\033[1;36m-> \033[39mWelcome to \033[35mCarbs %s\033[39m!\033[m\n' "$(uname -s)"
 
