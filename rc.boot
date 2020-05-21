@@ -1,10 +1,10 @@
 #!/bin/sh
 # shellcheck disable=1090,1091,2174
 
-# Read the configuration file and the library fo
+# Read the configuration file and the library of
 # common functions.
-. /etc/init/rc.conf
 . /usr/lib/init/rc.lib
+[ -f /etc/init/rc.conf ] && . /etc/init/rc.conf
 
 mnt() {
     [ -f /proc/mounts ] && while read -r _ mnt _; do

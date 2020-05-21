@@ -1,8 +1,8 @@
 #!/bin/sh
 # shellcheck disable=1090,1091
 
-. /etc/init/rc.conf
 . /usr/lib/init/rc.lib
+[ -f /etc/init/rc.conf ] && . /etc/init/rc.conf
 
 run_hook pre.shutdown
 
