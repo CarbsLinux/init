@@ -70,6 +70,7 @@ parse_cmdline() {
             ro) RO=1 ;;
             forcefsck) FORCEFSCK="-f" ;;
             fastboot)  FASTBOOT=1 ;;
+            loglevel=?) dmesg_level=${arg##*=} ;;
             log) log=1 ;;
         esac
     done
