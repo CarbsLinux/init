@@ -3,15 +3,26 @@
 
 export PATH=$PATH:/usr/local/bin:/usr/bin
 
-log_file="${log_dir:=/var/log/init}/$(date +%Y%m%d-%H%M)-${0##*.}"
 
 log() {
-    [ "$log" = 1 ] || {
-        cat
-        return 0
-    }
-    mkdir -p "$log_dir"
-    tee -a "$log_file"
+    # A function to log all output to syslog (if it is available)
+    # and to kernel messages. This way the logs are readable after
+    # reboot.
+    #
+    # The usability of this also depends on how early you start
+    # syslogd and how late you stop it. I will be modifying this
+    # to enable a way (or multiple ways) of storing boot/shutdown
+    # logs in a persistent manner.
+    #
+    # Right now, you could possibly start a syslogd from the early
+    # boot hooks which will be run right after filesystems are
+    # mounted.
+    #
+    # If no arguments for the logger are specified, it will read
+    # standard input for the log. This means you can pipe the output
+    # of a command to this function. Those will be logged as well.
+    [ "$1" ] && printf 'init: %s\n' "$@" >/dev/kmsg 2>/dev/null
+    logger -t init "${@:--s}"
 }
 
 
@@ -71,7 +82,6 @@ parse_cmdline() {
             forcefsck) FORCEFSCK="-f" ;;
             fastboot)  FASTBOOT=1 ;;
             loglevel=?) dmesg_level=${arg##*=} ;;
-            log) log=1 ;;
         esac
     done
 }
