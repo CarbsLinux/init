@@ -3,6 +3,11 @@
 
 export PATH=$PATH:/usr/local/bin:/usr/bin
 
+# logger is provided by 3 packages on the core repository (sbase,
+# busybox, util-linux). However, it is optional. Since logger
+# outputs to stderr, we cannot silence stderr to not display error
+# messages in the rare case where it isn't available on the system.
+logger=$(command -v logger) || logger=:
 
 log() {
     # A function to log all output to syslog (if it is available)
@@ -22,7 +27,7 @@ log() {
     # standard input for the log. This means you can pipe the output
     # of a command to this function. Those will be logged as well.
     [ "$1" ] && printf 'init: %s\n' "$@" >/dev/kmsg 2>/dev/null
-    logger -t init "${@:--s}"
+    "$logger" -t init "${@:--s}"
 }
 
 
