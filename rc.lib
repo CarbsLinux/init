@@ -31,20 +31,81 @@ log() {
 }
 
 
-out() { printf '\033[1;36m-> \033[39m%s\033[m\n' "$@" | log ;}
-err() { printf '\033[1;31m!> \033[39m%s\033[m\n' "$@" | log ;}
-
-shell() {
-    err "Dropping to shell, type 'exit' to continue the boot process."
-    sh -l
+out() {
+    printf '%b%s \033[39m%s\033[m\n' "${3:-"\033[1;36m"}" "${2:-->}" "$1"
+    log "$1"
 }
 
-run_hook() {
-    out "Running '$1' hooks..."
-    for hook in "/etc/init/"*".$1" "/usr/lib/init/hooks/"*".$1"; do
-        [ -f "$hook" ] || continue
-        out "Running '$hook'..."
-        . "$hook"
+err() { out "$1" "!>" "\033[1;31m" ;}
+
+device_helper() {
+    # We devices based on user preference, and what's available
+    # on the system.
+    #
+    # Get the device daemon to be used, if we don't have a daemon
+    # available on the system, do not continue any further.
+    [ "$devd" ] || {
+        devd=$(command -v udevd) || devd=$(command -v mdev) ||
+        return 0
+    }
+
+    case "$1" in
+        settle) case "${devd##*/}" in
+                    udevd)
+                        udevd -d
+                        udevadm trigger -c add -t subsystems
+                        udevadm trigger -c add -t devices
+                        udevadm settle
+                        ;;
+                    mdev)
+                        mdev -s
+                        mdev -df & mdev_pid=$!
+                        ;;
+                esac
+                ;;
+        exit) case "${devd##*/}" in
+                  udevd)
+                      udevadm control --exit
+                      ;;
+                  mdev)
+                      [ "$mdev_pid" ] && kill "$mdev_pid"
+                      command -v mdev > /proc/sys/kernel/hotplug
+                      ;;
+              esac
+    esac
+}
+
+mnt() {
+    [ -f /proc/mounts ] && while read -r _ mnt _; do
+        case "$mnt" in "$1") return 0; esac
+    done < /proc/mounts
+
+    mnt="$1"; shift
+    mount "$@" "$mnt" 2>&1 | log
+}
+
+parse_cmdline() {
+    # This is a primitive way of parsing kernel command line
+    # options. Before now, carbs-init ignored these options
+    # set by the user. More will be added as needed. Init scripts
+    # don't need to handle most of the command line options
+    # as the kernel deals with most of them, but not things
+    # such as mount options.
+    [ -r /proc/cmdline ] || {
+        err "Kernel command line options cannot be parsed"
+        shell
+    }
+
+    # We want to read words instead of lines here.
+    # shellcheck disable=2013
+    for arg in $(cat /proc/cmdline); do
+        case "$arg" in
+            ro) RO=1 ;;
+            forcefsck) FORCEFSCK="-f" ;;
+            fastboot)  FASTBOOT=1 ;;
+            loglevel=?) dmesg_level=${arg#loglevel=} ;;
+            devd=*)     devd=${arg#devd=} ;;
+        esac
     done
 }
 
@@ -67,35 +128,16 @@ random() {
     esac
 }
 
-parse_cmdline() {
-    # This is a primitive way of parsing kernel command line
-    # options. Before now, carbs-init ignored these options
-    # set by the user. More will be added as needed. Init scripts
-    # don't need to handle most of the command line options
-    # as the kernel deals with most of them, but not things
-    # such as mount options.
-    [ -r /proc/cmdline ] || {
-        err "Kernel command line options cannot be parsed"
-        shell
-    }
-
-    # We want to read words instead of lines here.
-    # shellcheck disable=2013
-    for arg in $(cat /proc/cmdline); do
-        case "$arg" in
-            ro) RO=1 ;;
-            forcefsck) FORCEFSCK="-f" ;;
-            fastboot)  FASTBOOT=1 ;;
-            loglevel=?) dmesg_level=${arg##*=} ;;
-        esac
+run_hook() {
+    out "Running '$1' hooks..."
+    for hook in "/etc/init/"*".$1" "/usr/lib/init/hooks/"*".$1"; do
+        [ -f "$hook" ] || continue
+        out "Running '$hook'..."
+        . "$hook"
     done
 }
 
-mnt() {
-    [ -f /proc/mounts ] && while read -r _ mnt _; do
-        case "$mnt" in "$1") return 0; esac
-    done < /proc/mounts
-
-    mnt="$1"; shift
-    mount "$@" "$mnt" 2>&1 | log
+shell() {
+    err "Dropping to shell, type 'exit' to continue the boot process."
+    sh -l
 }
