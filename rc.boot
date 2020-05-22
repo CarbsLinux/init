@@ -38,12 +38,8 @@ out "Parsing kernel commandline..."; {
     dmesg -n$dmesg_level
 }
 
-command -v udevd >/dev/null && {
-    out "Starting eudev..."
-    udevd --daemon
-    udevadm trigger --action=add --type=subsystems
-    udevadm trigger --action=add --type=devices
-    udevadm settle
+out "Starting device manager..."; {
+    device_helper settle
 }
 
 out "Remounting rootfs as read-only..."; {
@@ -103,9 +99,9 @@ out "Loading sysctl settings..."; {
 }
 
 
-command -v udevd >/dev/null &&
-    udevadm control --exit
-
+out "Stopping device manager..."; {
+    device_helper exit
+}
 
 run_hook boot
 
