@@ -1,5 +1,5 @@
 #!/bin/sh
-# shellcheck disable=1090,1091,2174
+# shellcheck disable=1090,1091
 
 # Read the configuration file and the library of
 # common functions.
@@ -15,15 +15,10 @@ out "Mounting pseudo filesystems..."; {
     mnt mode=0755,nosuid,nodev tmpfs    run  /run
     mnt mode=0755,nosuid       devtmpfs dev  /dev
 
-    mkdir -pm 0755 \
-                   /run/lvm   \
-                   /run/user  \
-                   /run/lock  \
-                   /run/log   \
-                   /dev/pts   \
-                   /dev/shm
+    mkdir -p /run/lvs /run/user /run/lock \
+             /run/log /dev/pts /dev/shm
 
-    command -v runsvdir >/dev/null 2>&1 && mkdir -pm 0755 /run/runit
+    command -v runsvdir >/dev/null 2>&1 && mkdir -p 0755 /run/runit
 
     mnt mode=0620,gid=5,nosuid,noexec devpts devpts /dev/pts
     mnt mode=1777,nosuid,nodev        tmpfs  shm    /dev/shm
