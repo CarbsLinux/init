@@ -10,10 +10,10 @@
 printf '\033[1;36m-> \033[39mWelcome to \033[35mCarbs %s\033[39m!\033[m\n' "$(uname -s)"
 
 out "Mounting pseudo filesystems..."; {
-    mnt /proc -o nosuid,noexec,nodev    -t proc     proc
-    mnt /sys  -o nosuid,noexec,nodev    -t sysfs    sys
-    mnt /run  -o mode=0755,nosuid,nodev -t tmpfs    run
-    mnt /dev  -o mode=0755,nosuid       -t devtmpfs dev
+    mnt nosuid,noexec,nodev    proc     proc /proc
+    mnt nosuid,noexec,nodev    sysfs    sys  /sys
+    mnt mode=0755,nosuid,nodev tmpfs    run  /run
+    mnt mode=0755,nosuid       devtmpfs dev  /dev
 
     mkdir -pm 0755 \
                    /run/lvm   \
@@ -25,8 +25,8 @@ out "Mounting pseudo filesystems..."; {
 
     command -v runsvdir >/dev/null 2>&1 && mkdir -pm 0755 /run/runit
 
-    mnt /dev/pts -o mode=0620,gid=5,nosuid,noexec -nt devpts     devpts
-    mnt /dev/shm -o mode=1777,nosuid,nodev        -nt tmpfs      shm
+    mnt mode=0620,gid=5,nosuid,noexec devpts devpts /dev/pts
+    mnt mode=1777,nosuid,nodev        tmpfs  shm    /dev/shm
 }
 
 out "Parsing kernel commandline..."; {

@@ -75,13 +75,19 @@ device_helper() {
     esac
 }
 
-mnt() {
-    [ -f /proc/mounts ] && while read -r _ mnt _; do
+mounted() {
+    [ -e "$1" ] &&
+    [ -f /proc/mounts ] &&
+    while read -r _ mnt _; do
         case "$mnt" in "$1") return 0; esac
     done < /proc/mounts
 
-    mnt="$1"; shift
-    mount "$@" "$mnt" 2>&1 | log
+    return 1
+}
+
+mnt() {
+    mounted "$4" && set -- "remount,$1" "$2" "$3" "$4"
+    mount -o "$1" -t "$2" "$3" "$4"
 }
 
 parse_cmdline() {
