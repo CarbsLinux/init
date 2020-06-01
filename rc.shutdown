@@ -29,12 +29,13 @@ out "Sending KILL signal to all processes..."; {
     killall5 -KILL
 }
 
-out "Unmounting filesystems and disabling swap..."
-out "Remounting rootfs as readonly"; {
+out "Unmounting filesystems and disabling swap..."; {
     swapoff -a
     umount -rat nosysfs,noproc,nodevtmpfs,notmpfs
-    mount -o remount,ro /
+} 2>&1 | log
 
+out "Remounting rootfs as readonly..."; {
+    mount -o remount,ro /
     sync
 } 2>&1 | log
 
