@@ -22,6 +22,13 @@ out "Mounting pseudo filesystems..."; {
 
     mnt mode=0620,gid=5,nosuid,noexec devpts devpts /dev/pts
     mnt mode=1777,nosuid,nodev        tmpfs  shm    /dev/shm
+
+    {
+        link /proc/self/fs /dev/fd
+        link fd/0          /dev/stdin
+        link fd/1          /dev/stdout
+        link fd/2          /dev/stderr
+    } 2>/dev/null
 }
 
 out "Parsing kernel commandline..."; {
