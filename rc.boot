@@ -107,12 +107,4 @@ out "Stopping device manager..."; {
 
 run_hook boot
 
-# rc.local is deprecated and will be removed in
-# a month. You should switch to boot hooks
-out "Running rc.local..."; {
-[ -r "/etc/init/rc.local" ] && \
-    . /etc/init/rc.local
-}
-
-
 out "Boot stage complete..."
