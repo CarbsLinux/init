@@ -1,10 +1,33 @@
-// shalt -- simple halt utility
+/* shalt -- simple halt utility */
 #include <sys/reboot.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-int main (int argc, char *argv[]) {
-    switch ((int)argv[argc < 2 ? 0 : 1][0]) {
-    case 'p': reboot(RB_POWER_OFF); break;
-    case 'r': reboot(RB_AUTOBOOT); break;
-    default: return 1;
-    }; return 0;
+static char *argv0;
+#include "arg.h"
+
+static void
+usage(void)
+{
+	fprintf(stderr, "usage: %s [-pr]\n", argv0);
+	exit(1);
+}
+
+int
+main(int argc, char *argv[])
+{
+	ARGBEGIN {
+		case 'p':
+			reboot(RB_POWER_OFF);
+			break;
+		case 'r':
+			reboot(RB_AUTOBOOT);
+			break;
+		default:
+			usage();
+	} ARGEND
+
+	if (argc != 2) usage();
+	return 0;
 }
