@@ -6,13 +6,18 @@ BINDIR  = ${PREFIX}/bin
 CONFDIR = /etc/init
 CC      = cc
 
-all: bin/shalt
+CFLAGS  = -std=c99 -Wall -pedantic
+LDFLAGS = -static
 
-bin/shalt: bin/shalt.c
-	${CC} -o bin/shalt bin/shalt.c
+BIN = bin/shalt
+
+all: ${BIN}
+
+.c:
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $<
 
 clean:
-	rm -f bin/shalt
+	rm -f ${BIN} ${OBJ}
 
 install: bin/shalt
 	mkdir -p ${DESTDIR}${CONFDIR} ${DESTDIR}${INITDIR} ${DESTDIR}${BINDIR}
