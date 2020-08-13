@@ -37,7 +37,7 @@ out "Parsing kernel commandline..."; {
 
 [ "${dmesg_level:=$loglevel}" ] && {
     out "Setting dmesg level..."
-    dmesg -n$dmesg_level
+    dmesg -n "$dmesg_level"
 }
 
 out "Starting device manager..."; {
