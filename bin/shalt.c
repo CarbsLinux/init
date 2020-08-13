@@ -2,7 +2,7 @@
 #include <sys/reboot.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <unistd.h>
 
 static char *argv0;
 #include "arg.h"
@@ -17,6 +17,8 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
+	sync();
+
 	ARGBEGIN {
 		case 'p':
 			reboot(RB_POWER_OFF);
