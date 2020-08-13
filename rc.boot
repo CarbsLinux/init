@@ -1,5 +1,7 @@
 #!/bin/sh
 # shellcheck disable=1090,1091
+# I would add 2154, but I don't want to accidentally misuse a variable name
+# without noticing.
 
 # Read the configuration file and the library of
 # common functions.
@@ -34,6 +36,9 @@ out "Mounting pseudo filesystems..."; {
 out "Parsing kernel commandline..."; {
     parse_cmdline
 }
+
+# shellcheck disable=2154
+[ "$quiet" = 1 ] && exec >/dev/null 2>&1
 
 [ "${dmesg_level:=$loglevel}" ] && {
     out "Setting dmesg level..."
