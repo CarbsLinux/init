@@ -1,3 +1,4 @@
+# -*- mode: sh -*-
 # rc.lib -- common functions for rc.boot and rc.shutdown
 # shellcheck disable=1090,2034
 
