@@ -35,7 +35,7 @@ out "Parsing kernel commandline..."; {
     parse_cmdline
 }
 
-[ "$dmesg_level" ] && {
+[ "${dmesg_level:=$loglevel}" ] && {
     out "Setting dmesg level..."
     dmesg -n$dmesg_level
 }
@@ -48,13 +48,15 @@ out "Remounting rootfs as read-only..."; {
     mount -o remount,ro / || shell
 }
 
-[ "$FASTBOOT" = 1 ] || {
+# shellcheck disable=2154
+[ "$fastboot" = 1 ] || {
     out "Checking filesystems..."
-    fsck "-ATat${FORCEFSCK}" noopts=_netdev 2>&1 | log
+    fsck "-ATat${forcefsck:+-f}" noopts=_netdev 2>&1 | log
     [ $? -gt 1 ] && shell
 }
 
-[ "$RO" = "1" ] || {
+# shellcheck disable=2154
+[ "$ro" = "1" ] || {
     out "Mounting rootfs read-write..."
     mount -o remount,rw / || shell
 }

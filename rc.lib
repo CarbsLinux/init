@@ -109,15 +109,14 @@ parse_cmdline() {
 
     # We want to read words instead of lines here.
     # shellcheck disable=2013
-    for arg in $(cat /proc/cmdline); do
-        case "$arg" in
-            ro) RO=1 ;;
-            forcefsck) FORCEFSCK="-f" ;;
-            fastboot)  FASTBOOT=1 ;;
-            loglevel=?) dmesg_level=${arg#loglevel=} ;;
-            devd=*)     devd=${arg#devd=} ;;
-        esac
-    done
+    while read -r cmdline; do
+        for arg in $cmdline; do
+            case "$arg" in
+                *=*) export "$arg" ;;
+                *)   export "$arg=1" ;;
+            esac
+        done
+    done < /proc/cmdline
 }
 
 random() {
