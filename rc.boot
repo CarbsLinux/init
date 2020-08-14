@@ -33,9 +33,7 @@ out "Mounting pseudo filesystems..."; {
     } 2>/dev/null
 }
 
-out "Parsing kernel commandline..."; {
-    parse_cmdline
-}
+parse_cmdline
 
 # shellcheck disable=2154
 [ "$quiet" = 1 ] && exec >/dev/null 2>&1
