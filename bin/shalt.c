@@ -1,8 +1,10 @@
 /* shalt -- simple halt utility */
-#include <sys/reboot.h>
+#define _XOPEN_SOURCE 500
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/reboot.h>
 
 static char *argv0;
 #include "arg.h"
