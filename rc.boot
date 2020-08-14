@@ -9,7 +9,7 @@
 [ -f /etc/init/rc.conf ] && . /etc/init/rc.conf
 
 # Display a pretty welcome message
-printf '\033[1;36m-> \033[39mWelcome to \033[35mCarbs %s\033[39m!\033[m\n' "$(uname -s)"
+printf '\033[1;36m-> \033[39m%s \033[35m%s\033[39m!\033[m\n' "Welcome to" "Carbs $(uname -s)"
 
 out "Mounting pseudo filesystems..."; {
     mnt nosuid,noexec,nodev    proc     proc /proc
