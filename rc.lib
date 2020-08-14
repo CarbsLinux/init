@@ -77,11 +77,6 @@ device_helper() {
     esac
 }
 
-link() {
-    ln -sf "$1" "$2"
-    printf '%s ==> %s\n' "$2" "$1"
-}
-
 mounted() {
     [ -e "$1" ] &&
     [ -f /proc/mounts ] &&
