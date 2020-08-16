@@ -8,6 +8,14 @@ This CHANGELOG is for the Carbs Linux init scheme. The format is based on
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 
+1.0.1 - 2020-08-16
+--------------------------------------------------------------------------------
+
+### Fixed
+- Fixed creation of runit directories where we accidentally created a directory
+  named '/0755' instead of setting the directory permissions.
+
+
 1.0.0 - 2020-08-15
 --------------------------------------------------------------------------------
 
