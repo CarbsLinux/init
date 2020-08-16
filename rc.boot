@@ -20,7 +20,8 @@ out "Mounting pseudo filesystems..."; {
     mkdir -p /run/lvs /run/user /run/lock \
              /run/log /dev/pts /dev/shm
 
-    command -v runsvdir >/dev/null 2>&1 && mkdir -p 0755 /run/runit
+    # shellcheck disable=2174
+    command -v runsvdir >/dev/null 2>&1 && mkdir -pm 0755 /run/runit
 
     mnt mode=0620,gid=5,nosuid,noexec devpts devpts /dev/pts
     mnt mode=1777,nosuid,nodev        tmpfs  shm    /dev/shm
