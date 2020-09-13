@@ -8,6 +8,13 @@ This CHANGELOG is for the Carbs Linux init scheme. The format is based on
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 
+1.1.0 - 2020-09-13
+--------------------------------------------------------------------------------
+
+### Added
+- Added `*.umount` hook that runs after all file-systems are unmounted.
+
+
 1.0.1 - 2020-08-16
 --------------------------------------------------------------------------------
 
