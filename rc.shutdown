@@ -33,6 +33,7 @@ out "Unmounting filesystems and disabling swap..."; {
     sync
     swapoff -a
     umount -rat nosysfs,noproc,nodevtmpfs,notmpfs
+    run_hook umount
 } 2>&1 | log
 
 out "Remounting rootfs as readonly..."; {
