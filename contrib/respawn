@@ -18,6 +18,10 @@ case "$1" in
 esac
 
 while :; do
-    "$@"
+    "$@" || err=$?
+    case $err in
+        # Usually Ctrl+C interrupt.
+        12[7-9]|130) exit 0
+    esac
     [ "$delay" ] && sleep "$delay"
 done
