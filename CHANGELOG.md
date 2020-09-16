@@ -8,6 +8,13 @@ This CHANGELOG is for the Carbs Linux init scheme. The format is based on
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 
+1.2.1 - 2020-09-16
+--------------------------------------------------------------------------------
+
+### Fixed
+- Fixed respawn calls on contrib scripts
+
+
 1.2.0 - 2020-09-16
 --------------------------------------------------------------------------------
 

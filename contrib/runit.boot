@@ -1,1 +1,1 @@
-respawn runsvdir -P /var/service ; done &
+respawn runsvdir -P /var/service &
