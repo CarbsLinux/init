@@ -109,6 +109,7 @@ parse_cmdline() {
     while read -r cmdline; do
         for arg in $cmdline; do
             case "$arg" in
+                *.*) continue ;;
                 *=*) export "$arg" ;;
                 *)   export "$arg=1" ;;
             esac
