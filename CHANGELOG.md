@@ -8,6 +8,19 @@ This CHANGELOG is for the Carbs Linux init scheme. The format is based on
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
 
+1.2.0 - 2020-09-16
+--------------------------------------------------------------------------------
+
+### Added
+- Added a `respawn` utility to avoid while loops as they cause unpredictability,
+  and cannot be properly killed during shutdown, leading to unmounting errors.
+
+### Fixed
+- Command line parsing now ignores kernel parameters that include a `.` as they
+  are bad variable names for the shell, and are unrelated to the init system
+  itself.
+
+
 1.1.0 - 2020-09-13
 --------------------------------------------------------------------------------
 
