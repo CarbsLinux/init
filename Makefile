@@ -23,6 +23,8 @@ install: bin/shalt
 	mkdir -p ${DESTDIR}${CONFDIR} ${DESTDIR}${INITDIR} ${DESTDIR}${BINDIR}
 	cp bin/shalt ${DESTDIR}${BINDIR}/shalt
 	chmod 755 ${DESTDIR}${BINDIR}/shalt
+	cp contrib/respawn ${DESTDIR}${BINDIR}/respawn
+	chmod 755 ${DESTDIR}${BINDIR}/respawn
 	cp rc.lib rc.boot rc.shutdown ${DESTDIR}${INITDIR}
 	chmod 755 ${DESTDIR}${INITDIR}/rc.boot ${DESTDIR}${INITDIR}/rc.shutdown
 	cp rc.conf contrib/runit.boot contrib/getty.boot ${DESTDIR}${CONFDIR}
