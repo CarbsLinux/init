@@ -6,7 +6,7 @@ BINDIR  = ${PREFIX}/bin
 CONFDIR = /etc/init
 CC      = cc
 
-CFLAGS  = -std=c99 -Wall -pedantic
+CFLAGS  = -std=c99 -Wall -pedantic -D_XOPEN_SOURCE=500
 LDFLAGS = -static
 
 BIN = bin/shalt
@@ -19,7 +19,7 @@ all: ${BIN}
 clean:
 	rm -f ${BIN} ${OBJ}
 
-install: bin/shalt
+install: ${BIN}
 	mkdir -p ${DESTDIR}${CONFDIR} ${DESTDIR}${INITDIR} ${DESTDIR}${BINDIR}
 	cp bin/shalt ${DESTDIR}${BINDIR}/shalt
 	chmod 755 ${DESTDIR}${BINDIR}/shalt
