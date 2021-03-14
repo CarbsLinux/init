@@ -101,7 +101,7 @@ out "Loading sysctl settings..."; {
         /etc/sysctl.conf; do
 
         [ -f "$conf" ] || continue
-        out "Appling $conf ..."
+        out "Applying $conf ..."
         sysctl -p "$conf"
     done
 }
