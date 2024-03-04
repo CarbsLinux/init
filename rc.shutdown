@@ -14,6 +14,7 @@ command -v sv >/dev/null &&
 
 command -v svctl >/dev/null &&
     out "Waiting for sysmgr services to stop..."; {
+    svctl stop /var/sysmgr/* 2>/dev/null
     svctl kill /var/sysmgr/* 2>/dev/null
 }
 
