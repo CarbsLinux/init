@@ -27,7 +27,7 @@ out "Mounting pseudo filesystems..."; {
     mnt mode=1777,nosuid,nodev        tmpfs  shm    /dev/shm
 
     {
-        ln -sf /proc/self/fs /dev/fd
+        ln -sf /proc/self/fd /dev/fd
         ln -sf fd/0          /dev/stdin
         ln -sf fd/1          /dev/stdout
         ln -sf fd/2          /dev/stderr
